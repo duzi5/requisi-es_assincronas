@@ -11,27 +11,42 @@
 	
 		<script>
 			
-			let ImgLoading = document.createElement('img');
-			ImgLoading.src = 'loading.gif'
-			ImgLoading.className = 'rounded mx-auto d-block';
-
-			document.getElementById('conteudo').appendChild(ImgLoading);
 			
-			let ajax = new XMLHttpRequest();
 			
-			ajax.open('GET', url);
-			ajax.send()
+		
 			
 			//console.log($ajax)
 
 			function requisitarPagina(url){
 				
-			} 
-			//console.log(ajax.readyState);
+				if (!document.getElementById('loading')){
+					let ImgLoading = document.createElement('img');
+				
+					ImgLoading.id = 'loading';
+					ImgLoading.src = 'loading.gif';
+					ImgLoading.className = 'rounded mx-auto d-block';
+
+					document.getElementById('conteudo').appendChild(ImgLoading);
 			
-			ajax.onreadystatechange = function() {
-				//console.log(ajax.readyState)
+				
+				}
+				
+			
+				let ajax = new XMLHttpRequest();
+				ajax.open('GET', url);
+			
+				ajax.onreadystatechange = () =>{
+					if (ajax.readyState == 4 && ajax.status ==200){
+						console.log('requisição finalizada com sucesso');
+						document.getElementById('loading').remove(); 
+						document.getElementById('conteudo').innerHTML = ajax.responseText
+					}	
+				}	
+				ajax.send()	
 			}
+			
+			
+			
 			
 			
 		</script>
@@ -57,7 +72,7 @@
 
 	    	<div class="row mb-2 d-flex justify-content-center">
 	    		<div class="col-sm-2 mb-2">
-	    			<a href="#" class="btn btn-primary" onclick="requisitarPagina('pagina_1_conteudo.html')">Página 1</a>
+	    			<a href="#" class="btn btn-primary" onclick="requisitarPagina('pagina_1_conteudo.php')">Página 1</a>
 	    		</div>
 	    		<div class="col-sm-2 mb-2">
 	    			<a href="#" class="btn btn-primary" onclick="requisitarPagina('pagina_2_conteudo.html')">Página 2</a>
